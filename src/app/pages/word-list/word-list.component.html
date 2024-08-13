@@ -1,0 +1,29 @@
+<div>
+    <h1>Word List</h1>
+    <input [(ngModel)]="newWordText" placeholder="Add new word">
+    <button (click)="addWord()">Add Word</button>
+    @if(errorMessage) {
+        <div style="color: red;">{{ errorMessage }}</div>
+    }
+
+    <ul>
+        @for( word of words; track word) {
+            <li (click)="selectWord(word.id)">
+                {{ word.text }}
+                <ul>
+                    @for( category of word.categories; track category ){
+                        <li>{{ category }}</li>
+                    }
+                </ul>
+            </li>
+        }
+        
+    </ul>
+
+    @if(selectedWordId !== null) {
+        <input [(ngModel)]="newCategory" placeholder="Add new category">
+        <button (click)="addCategory()">Add Category</button>
+    }
+    
+</div>
+

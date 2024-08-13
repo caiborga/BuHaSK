@@ -1,0 +1,128 @@
+@if (loading) {
+    <div class="spinner-container">
+        <p-progressSpinner
+            styleClass="w-4rem h-4rem" 
+            strokeWidth="8" 
+            fill="var(--surface-ground)" 
+            animationDuration="2s" />
+    </div>
+} @else {
+    <p-toast/>
+
+
+<div class="card container">
+    <!-- <p-menubar [model]="menuItems" /> -->
+    <div class="row" class="menu">
+        <p-fileUpload
+            #fileUpload
+            chooseLabel="Datei wählen"
+            mode="basic" 
+            name="demo[]" 
+            chooseIcon="pi pi-upload" 
+            accept=".csv" 
+            maxFileSize="1000000" 
+            (onSelect)="fileChangeListener($event)" 
+            [auto]="false"
+            class="hide"
+        />
+    </div>
+    <p-table
+        *ngIf="csvRecords.length > 0"
+        currentPageReportTemplate="Zeile {first} bis {last} von {totalRecords} Einträgen"
+        selectionMode="single"
+        (onPage)="pageChange($event)"
+        (onRowSelect)="onRowSelect($event)"
+        [first]="first"
+        [paginator]="true"
+        [showCurrentPageReport]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [tableStyleClass]="'fixed-table'"
+        [value]="csvRecords"
+        [(selection)]="selectedHeaderRow"
+        >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Zeile
+                </th>
+                <th>
+                    Kategorie
+                </th>
+                @for(row of [].constructor(maxColumns-2); track row; let idx = $index) {
+                    @if(!hidingCols.includes(idx)){
+                        <th
+                            [ngClass]="{'selected-column': highlightColumns.includes(idx)}"
+                            class="row-height"
+                            >
+                            <div class="row centered" >
+                                <i class="pi pi-eye-slash" style="cursor: pointer; margin-bottom: 5px;"(click)="hideColumn(idx)" pTooltip="Ausblenden" tooltipPosition="top" ></i>
+                            </div>
+                            <div class="row">
+                                <p-dropdown
+                                    optionLabel="name"
+                                    placeholder="Auswählen"
+                                    (onChange)="setRelevantRow($event, idx)"
+                                    (onClear)="deselectRelevantRow(idx)"
+                                    [ngModel]="selectedOptions[idx]"
+                                    [options]="getFilteredOptions(idx)"
+                                    [showClear]="true"
+                                    [style]="{'height':'40px', 'min-width':'100px', 'max-width':'140px'}"
+                                    />
+                            </div>
+                        </th>
+                    }
+                }
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+            
+            <tr 
+                [ngClass]="{'selected-row': selectedHeaderRow === row}"
+                >
+                <td>
+                    <i class="pi pi-flag" [ngClass]="{'selected-icon': selectedHeaderRow === row}" style="cursor: pointer;" (click)="selectedHeaderRow=row; onRowSelect(rowIndex);"></i>
+                </td>
+                <td>
+                    {{rowIndex}}
+                </td>
+                @for(col of [].constructor(maxColumns-1); track col; let idx = $index) {
+                    @if(!hidingCols.includes(idx-1)){
+                        @if( idx == 0 ){
+                            <td>
+                                <p-autoComplete
+                                    [placeholder]="csvRecords[rowIndex][0]"
+                                    [dropdown]="true"   
+                                    [suggestions]="filteredBookingCategories" 
+                                    [style]="{'height':'30px', 'min-width':'200px', 'max-width':'200px'}"
+                                    (onSelect)="setCategory(rowIndex, $event)"
+                                    (completeMethod)="filterCategories($event)"
+                                    />
+                            </td>
+                        } @else {
+                            <td
+                            class="column"
+                            pTooltip="{{row[idx]}}" 
+                            tooltipPosition="top" 
+                            [pSelectableRow]="row"
+                            [ngClass]="{'selected-column': highlightColumns.includes(idx-1)}"
+                            >
+                            {{ row[idx] }}
+                        </td>
+                        }
+                    }
+                }
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+}
+
+<!-- <app-word-list></app-word-list> -->
+
+
+
+
+

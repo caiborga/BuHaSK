@@ -1,0 +1,7 @@
+{
+  "routes": [
+    "/csv-importer",
+    "/home",
+    "/words"
+  ]
+}

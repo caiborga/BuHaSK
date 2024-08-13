@@ -1,0 +1,76 @@
+.column {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px; /* Setze hier die maximale Breite der Zelle */
+}
+
+.menu {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    margin: 5px;
+    align-items: center;
+}
+
+.selected-row {
+    background-color: #d0e1fd !important;
+}
+
+.selected-column {
+    background-color: #d0e1fd !important;
+}
+
+.selected-icon {
+    color: red;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center; /* Zentriert horizontal */
+    align-items: center; /* Zentriert vertikal */
+    height: 100vh; /* Höhe auf die volle Viewport-Höhe setzen */
+    width: 100vw; /* Breite auf die volle Viewport-Breite setzen */
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+.container {
+    margin: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.table-sm {
+    height: 53px;
+
+}
+
+.table-me {
+    height: 60px;
+
+}
+
+.table-lg {
+    height: 70px;
+
+}
+
+.fixed-table {
+    height: auto; /* Stellt sicher, dass die Tabelle nicht fixiert ist */
+    min-height: 70vh; /* Mindesthöhe */
+    max-height: 70vh; /* Maximale Höhe */
+    overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt größer ist */
+    overflow-x: hidden; /* Verhindert horizontales Scrollen */
+}
+
+.hide {
+    display: none;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
